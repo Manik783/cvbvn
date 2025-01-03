@@ -3,49 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Model Viewer</title>
+  <title>3D AR Viewer</title>
   <style>
     body {
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      text-align: center;
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      background-color: black;
+      color: white;
     }
     h1 {
       font-size: 24px;
       margin-bottom: 20px;
     }
-    p {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
     .button {
-      display: inline-block;
       padding: 15px 30px;
       font-size: 16px;
       color: #fff;
       background-color: #007bff;
       text-decoration: none;
       border-radius: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       transition: background-color 0.3s;
     }
     .button:hover {
       background-color: #0056b3;
     }
   </style>
+  <script>
+    window.onload = function () {
+      // Automatically prompt to open AR Viewer after a delay
+      setTimeout(() => {
+        window.location.href = "https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz";
+      }, 2000); // Adjust delay (milliseconds) if needed
+    };
+  </script>
 </head>
 <body>
-  <h1>View the 3D Model in Augmented Reality</h1>
-  <p>Tap the button below to view the model in 3D:</p>
-  
-  <!-- Link to your USDZ file -->
-  <a class="button" href="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz" rel="ar">
-    Tap to View 3D Model
-  </a>
+  <h1>View the 3D Model in AR</h1>
+  <p>Your AR model is loading...</p>
+  <a class="button" href="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz" rel="ar">Tap to Open Now</a>
 </body>
 </html>
