@@ -21,9 +21,9 @@
     // Check if the device is running iOS or Android
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-    // Define the model URL (USDX for iOS and GLB for Android)
+    // Define the model URL (USDZ for iOS and GLB for Android)
     const modelURL = isIOS
-      ? 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz'  // iOS USDZ model
+      ? 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz' // iOS USDZ model
       : 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb'; // Android GLB model
 
     console.log("Loading model from:", modelURL);
