@@ -3,20 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>View AR Model</title>
+  <title>3D Model Viewer</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    .button {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      text-decoration: none;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <h1>View the 3D Model in Augmented Reality</h1>
-  <p>Click below to view the 3D model in AR:</p>
-
-  <!-- Link to your USDZ file hosted on Netlify with the 'ar' relationship -->
-  <a href="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz" rel="ar">
-    <button>View in AR</button>
-  </a>
+  <p>Tap the button below to view the model in 3D:</p>
   
-  <!-- Button to return to the homepage -->
-  <a href="https://dcfvgbhj.netlify.app">
-    <button>Go Back to Site</button>
+  <!-- Link to your USDZ file -->
+  <a class="button" href="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz" rel="ar">
+    Tap to View 3D Model
   </a>
 </body>
 </html>
