@@ -10,27 +10,73 @@
   <script src="https://cdn.jsdelivr.net/npm/ar.js@3.0.0/aframe/build/aframe-ar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.135.0/build/three.min.js"></script>
 
+  <!-- Styles for the intro page -->
   <style>
-    body { margin: 0; overflow: hidden; }
-    canvas { display: block; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, #6e7dd7, #3b5db0);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .intro-container {
+      text-align: center;
+    }
+
+    .intro-container h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .intro-container p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .loading-animation {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #fff;
+      border-radius: 50%;
+      border-top: 5px solid transparent;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* Hide AR scene initially */
+    .ar-scene {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-  <script>
-    // Check if the device is running iOS or Android
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  <!-- Intro Screen -->
+  <div class="intro-container">
+    <h1>Welcome to WebAR</h1>
+    <p>Explore and interact with 3D models in the real world using your phone!</p>
+    <div class="loading-animation"></div>
+  </div>
 
-    // Define the model URL (USDZ for iOS and GLB for Android)
-    const modelURL = isIOS
-      ? 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz' // iOS USDZ model
-      : 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb'; // Android GLB model
-
-    console.log("Loading model from:", modelURL);
-  </script>
-
-  <!-- Create A-Frame scene for AR.js -->
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+  <!-- AR Scene (hidden initially) -->
+  <a-scene class="ar-scene" embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
 
     <!-- Add assets (models) -->
     <a-assets>
@@ -51,8 +97,25 @@
   </a-scene>
 
   <script>
-    // When the AR scene is ready, load the model into the scene
+    // Check if the device is running iOS or Android
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    // Define the model URL (USDZ for iOS and GLB for Android)
+    const modelURL = isIOS
+      ? 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz' // iOS USDZ model
+      : 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb'; // Android GLB model
+
+    console.log("Loading model from:", modelURL);
+
+    // When the AR scene is ready, hide the intro and show the AR scene
     document.querySelector('a-scene').addEventListener('loaded', function() {
+      // Hide the intro screen
+      document.querySelector('.intro-container').style.display = 'none';
+
+      // Show the AR scene
+      document.querySelector('.ar-scene').style.display = 'block';
+
+      // Load the model into the scene
       const modelEntity = document.querySelector('#modelEntity');
       const modelAsset = document.querySelector('#model');
 
