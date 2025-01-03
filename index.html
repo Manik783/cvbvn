@@ -3,26 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Markerless AR with AR.js</title>
+  <title>WebXR Markerless AR with GLB and USDZ</title>
 
-  <!-- Include A-Frame and AR.js libraries -->
+  <!-- Include Three.js for rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.135.0/build/three.min.js"></script>
+  <!-- Include WebXR Polyfill -->
+  <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@latest/build/webxr-polyfill.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.2.0/dist/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/ar.js@3.0.0/aframe/build/aframe-ar.js"></script>
-
-  <script>
-    // Check for device support and AR.js functionality
-    window.onload = function () {
-      console.log("AR.js is loading...");
-    }
-  </script>
+  
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
 </head>
+<body>
+  <script>
+    let scene, camera, renderer;
+    let model;
+    let loader;
+    let session;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-<body style="margin: 0; overflow: hidden;">
-  <!-- Create an A-Frame scene with AR.js integration -->
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true;">
-    <!-- Simple 3D object for testing -->
+    // Initialize the 3D scene
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // Add lighting
+      const light = new THREE.HemisphereLight(0xFFFFFF, 0x444444);
+      light.position.set(1, 1, 1).normalize();
+      scene.add(light);
+
+      // Load the appropriate model based on the device
+      loadModel();
+
+      // Start WebXR session
+      navigator.xr.requestSession('immersive-ar').then(onSessionStarted);
+    }
+
+    // Function to load the model based on device platform
+    function loadModel() {
+      const modelURL = isIOS 
+        ? 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz'
+        : 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb';
+
+      if (isIOS) {
+        // iOS uses USDZ, and it's natively supported in Safari for AR
+        const modelEntity = document.createElement('a-entity');
+        modelEntity.setAttribute('usdz-model', modelURL); // Usable in AR.js or directly in A-Frame
+        document.querySelector('a-scene').appendChild(modelEntity);
+      } else {
+        // Load GLB for Android or browsers that support WebXR
+        loader = new THREE.GLTFLoader();
+        loader.load(modelURL, (gltf) => {
+          model = gltf.scene;
+          model.scale.set(0.5, 0.5, 0.5);  // Scale the model to fit the scene
+          scene.add(model);
+        });
+      }
+    }
+
+    // Handle session start
+    function onSessionStarted(newSession) {
+      session = newSession;
+      session.addEventListener('end', onSessionEnded);
+
+      // Set up the XR WebGL context
+      renderer.xr.enabled = true;
+      session.requestReferenceSpace('local').then((refSpace) => {
+        session.requestAnimationFrame(onXRFrame);
+      });
+    }
+
+    // Handle XR frame rendering
+    function onXRFrame(t, frame) {
+      const session = frame.session;
+      const referenceSpace = frame.referenceSpace;
+      const viewerPose = frame.getViewerPose(referenceSpace);
+
+      renderer.render(scene, camera);
+
+      if (viewerPose) {
+        viewerPose.views.forEach((view) => {
+          camera.position.set(view.position[0], view.position[1], view.position[2]);
+          camera.rotation.set(view.rotation[0], view.rotation[1], view.rotation[2], view.rotation[3]);
+        });
+      }
+
+      // Call for the next frame
+      session.requestAnimationFrame(onXRFrame);
+    }
+
+    // End session
+    function onSessionEnded() {
+      console.log('Session ended');
+      renderer.dispose();
+      document.body.removeChild(renderer.domElement);
+    }
+
+    // Initialize the scene when the page loads
+    window.onload = init;
+  </script>
+
+  <!-- A-Frame Scene for AR.js integration -->
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <!-- A simple placeholder for AR model -->
     <a-box position="0 0.5 0" rotation="0 45 0" color="blue" scale="1 1 1"></a-box>
   </a-scene>
 </body>
 </html>
+
 
