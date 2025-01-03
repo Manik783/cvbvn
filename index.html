@@ -3,42 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D AR Viewer</title>
+  <title>AR Viewer Notification</title>
   <style>
     body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100vh;
-      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: black;
-      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
     }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
+    .notification {
+      padding: 20px;
+      background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      display: inline-block;
+      margin-top: 20%;
+      border-radius: 8px;
     }
     .button {
       padding: 15px 30px;
-      font-size: 16px;
-      color: #fff;
       background-color: #007bff;
-      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+      border: none;
       border-radius: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      transition: background-color 0.3s;
+      cursor: pointer;
+      margin-top: 20px;
     }
     .button:hover {
       background-color: #0056b3;
     }
   </style>
+  <script>
+    function notifyAndOpenAR() {
+      // Show a notification message
+      const userConfirmed = confirm("This model can be viewed in AR. Tap OK to open it in AR Viewer.");
+      if (userConfirmed) {
+        // Redirect to the USDZ file (AR Quick Look will take over)
+        window.location.href = "https://your-netlify-site.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz";
+      }
+    }
+  </script>
 </head>
 <body>
-  <h1>Tap to View the 3D Model in AR</h1>
-  <p>Click the button below to open the AR Viewer:</p>
-  <a class="button" href="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz" rel="ar">Open AR Viewer</a>
+  <div class="notification">
+    <h1>View in AR</h1>
+    <p>Tap the button below to view the model in augmented reality.</p>
+    <button class="button" onclick="notifyAndOpenAR()">Open in AR</button>
+  </div>
 </body>
 </html>
