@@ -9,39 +9,20 @@
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.2.0/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ar.js@3.0.0/aframe/build/aframe-ar.js"></script>
 
-  <!-- Include Three.js (AR.js depends on it) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.135.0/build/three.min.js"></script>
-
   <script>
-    // Detect the device type (iOS or Android)
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var modelURL = isIOS ? 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz' : 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb';
-    console.log('Device detected:', isIOS ? 'iOS' : 'Android');
+    // Check for device support and AR.js functionality
+    window.onload = function () {
+      console.log("AR.js is loading...");
+    }
   </script>
 </head>
 
 <body style="margin: 0; overflow: hidden;">
   <!-- Create an A-Frame scene with AR.js integration -->
-  <a-scene embedded arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: true;">
-    
-    <!-- Add your 3D model dynamically based on the device type -->
-    <a-assets>
-      <!-- Dynamically load model depending on the device (iOS: USDZ, Android: GLB) -->
-      <a-asset-item id="model" src="" ></a-asset-item>
-    </a-assets>
-
-    <!-- Add an entity to place the 3D model in the AR world -->
-    <a-entity id="modelEntity"
-              gltf-model="#model"
-              scale="0.5 0.5 0.5"
-              position="0 0 0"
-              rotation="0 0 0">
-    </a-entity>
-
-    <script>
-      // Set the model source dynamically
-      document.querySelector('#model').setAttribute('src', modelURL);
-    </script>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true;">
+    <!-- Simple 3D object for testing -->
+    <a-box position="0 0.5 0" rotation="0 45 0" color="blue" scale="1 1 1"></a-box>
   </a-scene>
 </body>
 </html>
+
