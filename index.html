@@ -3,52 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Viewer Notification</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    .notification {
-      padding: 20px;
-      background-color: #f4f4f4;
-      border: 1px solid #ccc;
-      display: inline-block;
-      margin-top: 20%;
-      border-radius: 8px;
-    }
-    .button {
-      padding: 15px 30px;
-      background-color: #007bff;
-      color: #fff;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    .button:hover {
-      background-color: #0056b3;
-    }
-  </style>
-  <script>
-    function notifyAndOpenAR() {
-      // Show a notification message
-      const userConfirmed = confirm("This model can be viewed in AR. Tap OK to open it in AR Viewer.");
-      if (userConfirmed) {
-        // Redirect to the USDZ file (AR Quick Look will take over)
-        window.location.href = "https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz";
-      }
-    }
-  </script>
+  <title>Markerless AR with AR.js</title>
+
+  <!-- Include A-Frame and AR.js libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.2.0/dist/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ar.js@3.0.0/aframe/build/aframe-ar.js"></script>
+
+  <!-- Include Three.js (AR.js depends on it) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.135.0/build/three.min.js"></script>
 </head>
-<body>
-  <div class="notification">
-    <h1>View in AR</h1>
-    <p>Tap the button below to view the model in augmented reality.</p>
-    <button class="button" onclick="notifyAndOpenAR()">Open in AR</button>
-  </div>
+
+<body style="margin: 0; overflow: hidden;">
+  <!-- Create an A-Frame scene with AR.js integration -->
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    
+    <!-- Add your 3D model -->
+    <a-assets>
+      <!-- Use your model's URL -->
+      <a-asset-item id="model" src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- Add an entity to place the 3D model in the AR world -->
+    <a-entity id="modelEntity"
+              gltf-model="#model"
+              scale="0.5 0.5 0.5"
+              position="0 0 0"
+              rotation="0 0 0">
+    </a-entity>
+  </a-scene>
 </body>
 </html>
