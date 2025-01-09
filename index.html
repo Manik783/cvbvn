@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Model Viewer</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -36,3 +44,45 @@ model-viewer {
 .ar-button:hover {
     background-color: #0056b3;
 }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <model-viewer
+            id="ar-viewer"
+            src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"
+            ios-src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz"
+            ar
+            ar-modes="scene-viewer quick-look"
+            camera-controls
+            alt="A 3D model of the object">
+        </model-viewer>
+        <button class="ar-button" onclick="activateAR()">View in AR</button>
+    </div>
+
+    <script>
+        // Function to track AR click usage
+        function trackClick() {
+            // Get the current click count from localStorage
+            let clickCount = localStorage.getItem('arClickCount') || 0;
+            clickCount = parseInt(clickCount) + 1; // Increment click count
+            localStorage.setItem('arClickCount', clickCount); // Save it back to localStorage
+        }
+
+        // This function is triggered when the AR button is clicked
+        function activateAR() {
+            // Track the click
+            trackClick();
+
+            // Show AR view
+            const modelViewer = document.querySelector('#ar-viewer');
+            if (modelViewer.activateAR) {
+                modelViewer.activateAR();
+            } else {
+                alert('AR is not supported on this device.');
+            }
+        }
+    </script>
+</body>
+</html>
