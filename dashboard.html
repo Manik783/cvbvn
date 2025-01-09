@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            color: white;
+        }
+        .dashboard-container {
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 1000px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <h1>Admin Dashboard</h1>
+        <button onclick="logout()">Logout</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Object Name</th>
+                    <th>Link</th>
+                    <th>Unique Clicks</th>
+                </tr>
+            </thead>
+            <tbody id="objectTable">
+                <!-- Dynamic content will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Simulated data for the objects
+        const objects = [
+            { name: 'Object 1', link: 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb', id: 'obj1' },
+            { name: 'Object 2', link: 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870701.glb', id: 'obj2' },
+        ];
+
+        // Check if the admin is logged in
+        if (localStorage.getItem('isAdmin') !== 'true') {
+            window.location.href = '/admin';
+        }
+
+        // Function to log out
+        function logout() {
+            localStorage.removeItem('isAdmin');
+            window.location.href = '/admin';
+        }
+
+        // Function to render the object table
+        function renderTable() {
+            const objectTable = document.getElementById('objectTable');
+            objectTable.innerHTML = ''; // Clear existing rows
+
+            objects.forEach(obj => {
+                let clickCount = localStorage.getItem(obj.id) || 0;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${obj.name}</td>
+                    <td><a href="${obj.link}" target="_blank">${obj.link}</a></td>
+                    <td>${clickCount}</td>
+                `;
+                objectTable.appendChild(row);
+            });
+        }
+
+        // Track the unique clicks
+        objects.forEach(obj => {
+            const link = document.querySelector(`a[href="${obj.link}"]`);
+            if (link) {
+                link.addEventListener('click', function() {
+                    let clickCount = localStorage.getItem(obj.id) || 0;
+                    localStorage.setItem(obj.id, ++clickCount);
+                    renderTable();
+                });
+            }
+        });
+
+        // Initialize the table on load
+        renderTable();
+    </script>
+
+</body>
+</html>
