@@ -75,29 +75,33 @@
     <!-- Footer -->
     <footer>© 2025 AR Hosting Platform. All rights reserved.</footer>
 
-    <!-- JavaScript for AR interaction and redirection -->
+    <!-- JavaScript for AR interaction -->
     <script>
         function activateAR() {
+            // Create a hidden <model-viewer> element dynamically
             const modelViewer = document.createElement('model-viewer');
             modelViewer.setAttribute('src', 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb');
             modelViewer.setAttribute('ios-src', 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz');
             modelViewer.setAttribute('ar', '');
             modelViewer.setAttribute('ar-modes', 'scene-viewer quick-look');
-            modelViewer.setAttribute('style', 'display:none;'); // Keep the element hidden
+            modelViewer.setAttribute('camera-controls', '');
+            modelViewer.setAttribute('style', 'display:none;'); // Keep it hidden from view
+
+            // Append the element to the body
             document.body.appendChild(modelViewer);
 
+            // Try activating AR
             if (modelViewer.activateAR) {
                 modelViewer.activateAR();
             } else {
                 alert('AR is not supported on this device.');
             }
 
-            // Remove the element after AR session ends
+            // Listen for AR session close and redirect back to the main page
             modelViewer.addEventListener('ar-status', (event) => {
                 if (event.detail.status === 'not-presenting') {
-                    window.location.href = window.location.origin;
+                    window.location.href = window.location.origin; // Redirect back to the website
                 }
-                document.body.removeChild(modelViewer);
             });
         }
     </script>
