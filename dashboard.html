@@ -71,8 +71,7 @@
     <script>
         // Simulated data for the objects
         const objects = [
-            { name: 'Object 1', link: 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb', id: 'obj1' },
-            { name: 'Object 2', link: 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870701.glb', id: 'obj2' },
+            { name: 'AR Model', link: 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb', id: 'obj1' },
         ];
 
         // Check if the admin is logged in
@@ -92,7 +91,7 @@
             objectTable.innerHTML = ''; // Clear existing rows
 
             objects.forEach(obj => {
-                let clickCount = localStorage.getItem(obj.id) || 0;
+                let clickCount = localStorage.getItem('arClickCount') || 0;
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -103,18 +102,6 @@
                 objectTable.appendChild(row);
             });
         }
-
-        // Track the unique clicks
-        objects.forEach(obj => {
-            const link = document.querySelector(`a[href="${obj.link}"]`);
-            if (link) {
-                link.addEventListener('click', function() {
-                    let clickCount = localStorage.getItem(obj.id) || 0;
-                    localStorage.setItem(obj.id, ++clickCount);
-                    renderTable();
-                });
-            }
-        });
 
         // Initialize the table on load
         renderTable();
