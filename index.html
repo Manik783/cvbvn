@@ -11,35 +11,27 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
         }
-        header {
-            background-color: #007BFF;
-            color: white;
-            padding: 20px;
-            font-size: 1.5rem;
-        }
         .container {
+            position: relative;
             max-width: 800px;
             margin: 50px auto;
-            padding: 20px;
-            background-color: white;
+        }
+        model-viewer {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: block;
         }
-        h1 {
-            color: #333;
-            font-size: 2rem;
-        }
-        p {
-            color: #555;
-            font-size: 1rem;
-        }
-        button {
-            display: inline-block;
+        .ar-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             padding: 15px 30px;
             font-size: 1rem;
             color: white;
@@ -50,59 +42,37 @@
             text-transform: uppercase;
             transition: background-color 0.3s ease;
         }
-        button:hover {
+        .ar-button:hover {
             background-color: #0056b3;
-        }
-        footer {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: #888;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>AR Model Viewer</header>
-
     <!-- Main Content -->
     <div class="container">
-        <h1>View 3D Model in Augmented Reality</h1>
-        <p>Click the button below to view this 3D object in AR on your phone.</p>
+        <!-- Model Viewer -->
+        <model-viewer
+            id="ar-viewer"
+            src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"
+            ios-src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz"
+            ar
+            ar-modes="scene-viewer quick-look"
+            camera-controls
+            alt="A 3D model of the object">
+        </model-viewer>
         <!-- AR Button -->
-        <button onclick="activateAR()">View in AR</button>
+        <button class="ar-button" onclick="activateAR()">View in AR</button>
     </div>
-
-    <!-- Footer -->
-    <footer>© 2025 AR Hosting Platform. All rights reserved.</footer>
 
     <!-- JavaScript for AR interaction -->
     <script>
         function activateAR() {
-            // Create a hidden <model-viewer> element dynamically
-            const modelViewer = document.createElement('model-viewer');
-            modelViewer.setAttribute('src', 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb');
-            modelViewer.setAttribute('ios-src', 'https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz');
-            modelViewer.setAttribute('ar', '');
-            modelViewer.setAttribute('ar-modes', 'scene-viewer quick-look');
-            modelViewer.setAttribute('camera-controls', '');
-            modelViewer.setAttribute('style', 'display:none;'); // Keep it hidden from view
-
-            // Append the element to the body
-            document.body.appendChild(modelViewer);
-
-            // Try activating AR
+            const modelViewer = document.querySelector('#ar-viewer');
             if (modelViewer.activateAR) {
                 modelViewer.activateAR();
             } else {
                 alert('AR is not supported on this device.');
             }
-
-            // Listen for AR session close and redirect back to the main page
-            modelViewer.addEventListener('ar-status', (event) => {
-                if (event.detail.status === 'not-presenting') {
-                    window.location.href = window.location.origin; // Redirect back to the website
-                }
-            });
         }
     </script>
 </body>
