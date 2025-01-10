@@ -89,13 +89,19 @@
             }
         }
 
-        // Redirect after AR is closed
+        // Redirect or show confirmation after AR is closed
         function redirectAfterAR() {
             const modelViewer = document.querySelector('#ar-viewer');
             modelViewer.addEventListener('ar-status', (event) => {
                 if (event.target.arStatus === 'not-presenting') {
-                    // Redirect to TheDapperly when AR is exited
-                    window.location.href = "https://thedapperly.com";
+                    // Add a delay for the redirect
+                    setTimeout(() => {
+                        const userConfirmed = confirm("Would you like to return to TheDapperly.com?");
+                        if (userConfirmed) {
+                            // Redirect to TheDapperly.com
+                            window.location.href = "https://thedapperly.com";
+                        }
+                    }, 1000); // Wait 1 second before showing the popup
                 }
             });
         }
@@ -109,3 +115,4 @@
     </script>
 </body>
 </html>
+
