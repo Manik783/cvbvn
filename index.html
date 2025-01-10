@@ -3,39 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Viewer</title>
+    <title>AR Model Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .viewer-container {
-            position: relative;
-            max-width: 90%;
-            width: 400px;
             background-color: #000000;
-            text-align: center;
         }
+        .container {
+            position: relative;
+            max-width: 700px;
+            margin: 100px auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+        } 
         model-viewer {
             width: 100%;
-            height: auto;
+            max-width: 700px;
+            height: 400px;
+            border-radius: 10px;
+            display: block;
         }
-        .ar-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .ar-button, .webar-button {
-            padding: 10px 20px;
-            font-size: 14px;
-            color: #fff;
+        .ar-button {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            color: white;
             background-color: #007BFF;
             border: none;
             border-radius: 5px;
@@ -43,22 +41,13 @@
             text-transform: uppercase;
             transition: background-color 0.3s ease;
         }
-        .ar-button:hover, .webar-button:hover {
+        .ar-button:hover {
             background-color: #0056b3;
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: gray;
-        }
-        footer a {
-            color: #007BFF;
-            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="viewer-container">
+    <div class="container">
         <model-viewer
             id="ar-viewer"
             src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"
@@ -68,18 +57,20 @@
             camera-controls
             alt="A 3D model of the object">
         </model-viewer>
-        <div class="ar-buttons">
-            <button class="ar-button" onclick="activateAR()">AR</button>
-            <button class="webar-button" onclick="openWebAR()">WebAR</button>
-        </div>
-        <footer>
-            <p>Create AR Codes with your own link <a href="https://ar-code.com" target="_blank">here</a></p>
-        </footer>
+        <button class="ar-button" onclick="activateAR()">View in AR</button>
     </div>
 
     <script>
-        // Function to activate AR mode
+        // Function to track AR click usage
+        function trackClick() {
+            let clickCount = localStorage.getItem('arClickCount') || 0;
+            clickCount = parseInt(clickCount) + 1; // Increment click count
+            localStorage.setItem('arClickCount', clickCount); // Save it back to localStorage
+        }
+
+        // This function is triggered when the AR button is clicked
         function activateAR() {
+            trackClick(); // Track the click
             const modelViewer = document.querySelector('#ar-viewer');
             if (modelViewer.activateAR) {
                 modelViewer.activateAR();
@@ -88,29 +79,19 @@
             }
         }
 
-        // Function to open WebAR (direct GLB link)
-        function openWebAR() {
-            window.open("https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb", "_blank");
-        }
-
-        // Auto-trigger AR mode if supported
+        // Auto-trigger AR if possible
         function attemptAutoTriggerAR() {
             const modelViewer = document.querySelector('#ar-viewer');
             if (modelViewer && modelViewer.activateAR) {
-                try {
-                    modelViewer.activateAR(); // Attempt automatic activation
-                } catch (e) {
-                    console.log("Auto-trigger failed: ", e.message);
-                }
-            } else {
-                console.log("AR auto-trigger not supported on this device.");
+                // Attempt to automatically activate AR
+                modelViewer.activateAR();
             }
         }
 
-        // Attempt auto-trigger AR on page load
+        // Only attempt auto-trigger if the device supports it
         window.onload = () => {
-            setTimeout(attemptAutoTriggerAR, 800); // Delay for 800ms to ensure the model-viewer is ready
-        };
+            setTimeout(attemptAutoTriggerAR, 800); // Attempt auto-activation after 1 second
+        }
     </script>
 </body>
 </html>
