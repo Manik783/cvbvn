@@ -6,44 +6,72 @@
     <title>AR Model Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Reset and global styles */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            box-sizing: border-box;
         }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Main container styles */
         .container {
             position: relative;
             max-width: 700px;
-            margin: 100px auto;
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
+            margin: 50px auto;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px -2px 4px rgba(0, 0, 0, 0.02);
+            border-radius: 15px;
+            overflow: hidden;
         }
+
+        /* Model viewer styles */
         model-viewer {
             width: 100%;
-            max-width: 700px;
             height: 400px;
-            border-radius: 10px;
             display: block;
+            border-bottom: 2px solid #f0f0f0;
         }
+
+        /* Button styles */
         .ar-button {
-            position: absolute;
-            bottom: 40px;
-            right: 20px;
-            padding: 8px 16px;
-            font-size: 0.8rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: bold;
             color: white;
-            background-color: #007BFF;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
             border: none;
-            border-radius: 5px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: background-color 0.3s ease;
+            border-radius: 0 0 15px 15px;
+            transition: all 0.3s ease-in-out;
         }
         .ar-button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #0056b3, #003f7f);
+        }
+
+        /* Additional hover effect */
+        .ar-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 30px 10px;
+            }
+            .ar-button {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -89,30 +117,10 @@
             }
         }
 
-        // Redirect or show confirmation after AR is closed
-        function redirectAfterAR() {
-            const modelViewer = document.querySelector('#ar-viewer');
-            modelViewer.addEventListener('ar-status', (event) => {
-                if (event.target.arStatus === 'not-presenting') {
-                    // Add a delay for the redirect
-                    setTimeout(() => {
-                        const userConfirmed = confirm("Would you like to return to TheDapperly.com?");
-                        if (userConfirmed) {
-                            // Redirect to TheDapperly.com
-                            window.location.href = "https://thedapperly.com";
-                        }
-                    }, 1000); // Wait 1 second before showing the popup
-                }
-            });
-        }
-
-        // Initialize listeners on page load
+        // Only attempt auto-trigger if the device supports it
         window.onload = () => {
-            const modelViewer = document.querySelector('#ar-viewer');
             setTimeout(attemptAutoTriggerAR, 800); // Attempt auto-activation after 1 second
-            redirectAfterAR(); // Add redirect listener
         }
     </script>
 </body>
 </html>
-
