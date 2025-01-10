@@ -45,23 +45,6 @@
         .ar-button:hover {
             background-color: #0056b3;
         }
-        .footer-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .footer-button:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
@@ -76,7 +59,6 @@
             alt="A 3D model of the object">
         </model-viewer>
         <button class="ar-button" onclick="activateAR()">View in AR</button>
-        <a href="https://thedapperly.com" class="footer-button" target="_blank">Visit TheDapperly.com</a>
     </div>
 
     <script>
@@ -107,11 +89,23 @@
             }
         }
 
-        // Only attempt auto-trigger if the device supports it
+        // Redirect after AR is closed
+        function redirectAfterAR() {
+            const modelViewer = document.querySelector('#ar-viewer');
+            modelViewer.addEventListener('ar-status', (event) => {
+                if (event.target.arStatus === 'not-presenting') {
+                    // Redirect to TheDapperly when AR is exited
+                    window.location.href = "https://thedapperly.com";
+                }
+            });
+        }
+
+        // Initialize listeners on page load
         window.onload = () => {
+            const modelViewer = document.querySelector('#ar-viewer');
             setTimeout(attemptAutoTriggerAR, 800); // Attempt auto-activation after 1 second
+            redirectAfterAR(); // Add redirect listener
         }
     </script>
 </body>
 </html>
-
