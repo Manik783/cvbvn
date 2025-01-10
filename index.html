@@ -19,7 +19,8 @@
             background-color: white;
             border-radius: 10px;
             padding: 20px;
-        } 
+            text-align: center;
+        }
         model-viewer {
             width: 100%;
             max-width: 700px;
@@ -44,6 +45,23 @@
         .ar-button:hover {
             background-color: #0056b3;
         }
+        .footer-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .footer-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +76,7 @@
             alt="A 3D model of the object">
         </model-viewer>
         <button class="ar-button" onclick="activateAR()">View in AR</button>
+        <a href="https://thedapperly.com" class="footer-button" target="_blank">Visit TheDapperly.com</a>
     </div>
 
     <script>
@@ -95,3 +114,4 @@
     </script>
 </body>
 </html>
+
