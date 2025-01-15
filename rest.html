@@ -149,10 +149,11 @@
             const modelViewer = document.querySelector('#model-viewer');
             const imageContainer = document.querySelector('#image-container');
 
+            // Hide image and show model viewer
+            imageContainer.style.display = 'none';
+            modelViewer.style.display = 'block';
+
             if (modelViewer.activateAR) {
-                alert('Do you want to see the 3D model?');
-                imageContainer.style.display = 'none';
-                modelViewer.style.display = 'block';
                 modelViewer.activateAR();
             } else {
                 alert('AR is not supported on this device.');
@@ -169,8 +170,6 @@
             imageContainer.style.display = 'none';
             description.style.display = 'none';
             modelViewer.style.display = 'block';
-
-            alert('3D view enabled. Use your mouse or touch gestures to explore!');
         }
     </script>
 </body>
