@@ -3,131 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Menu with AR</title>
+    <title>3D Model Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f5f5f5;
             color: #333;
-            margin: 0;
-            padding: 20px;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 0 auto;
-            max-width: 1200px;
-        }
-        .dish-card {
-            background: white;
-            border-radius: 10px;
+
+        /* Container styles */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            padding: 15px;
+            max-width: 400px;
             overflow: hidden;
         }
-        .dish-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            border-radius: 8px;
-        }
+
+        /* Model Viewer Styles */
         model-viewer {
-            display: none;
             width: 100%;
-            height: 200px;
+            height: 300px;
+            background-color: #e6e6e6;
+            display: none; /* Initially hidden */
         }
-        .dish-info {
-            margin-top: 10px;
-        }
-        .dish-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .dish-price {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        .buttons {
+
+        /* Button container styles */
+        .button-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 20px;
         }
-        .action-button {
-            padding: 10px 15px;
-            background: #007bff;
+
+        /* Button Styles */
+        .ar-button,
+        .view-3d-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 0.9rem;
+            border-radius: 25px;
             cursor: pointer;
-            transition: background 0.3s ease-in-out;
+            transition: background-color 0.3s;
         }
-        .action-button:hover {
-            background: #0056b3;
+
+        .ar-button {
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+        }
+
+        .ar-button:hover {
+            background: linear-gradient(135deg, #0056b3, #003f7f);
+        }
+
+        .view-3d-button {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        .view-3d-button:hover {
+            background: linear-gradient(135deg, #218838, #196c2f);
         }
     </style>
 </head>
 <body>
-    <h1>3D Menu with AR</h1>
-    <div class="menu-container">
-        <!-- Repeated Dish Cards -->
-        ${Array.from({ length: 10 }, (_, index) => `
-        <div class="dish-card">
-            <!-- Initial Image -->
-            <img src="https://via.placeholder.com/300x200?text=Dish+${index + 1}" 
-                 alt="Dish ${index + 1}" 
-                 class="dish-image" 
-                 id="image-${index + 1}">
-            
-            <!-- 3D Model -->
-            <model-viewer
-                id="model-${index + 1}"
-                src="https://example.com/model.glb"
-                ios-src="https://example.com/model.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="3D model of Dish ${index + 1}">
-            </model-viewer>
+    <div class="container">
+        <!-- Model Viewer -->
+        <model-viewer
+            id="model-viewer"
+            src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"
+            ios-src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz"
+            ar
+            camera-controls
+            alt="A 3D model of the object">
+        </model-viewer>
 
-            <!-- Dish Info -->
-            <div class="dish-info">
-                <div class="dish-name">Dish ${index + 1}</div>
-                <div class="dish-price">$10.00</div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="buttons">
-                <button class="action-button" onclick="show3D(${index + 1})">3D View</button>
-                <button class="action-button" onclick="showAR(${index + 1})">AR View</button>
-            </div>
+        <!-- Buttons -->
+        <div class="button-container">
+            <button class="ar-button" onclick="activateAR()">View on your table</button>
+            <button class="view-3d-button" onclick="enable3DView()">3D</button>
         </div>
-        `).join('')}
     </div>
 
     <script>
-        // Function to show 3D view
-        function show3D(index) {
-            const image = document.getElementById(`image-${index}`);
-            const model = document.getElementById(`model-${index}`);
-            image.style.display = 'none';
-            model.style.display = 'block';
+        // Activate AR function
+        function activateAR() {
+            const modelViewer = document.querySelector('#model-viewer');
+            if (modelViewer.activateAR) {
+                modelViewer.activateAR();
+            } else {
+                alert('AR is not supported on this device.');
+            }
         }
 
-        // Function to show AR view
-        function showAR(index) {
-            const model = document.getElementById(`model-${index}`);
-            model.activateAR(); // Triggers AR mode if supported
+        // Enable 3D view function
+        function enable3DView() {
+            const modelViewer = document.querySelector('#model-viewer');
+            modelViewer.style.display = 'block'; // Show the 3D model
+            alert('3D view enabled. Use your mouse or touch gestures to explore!');
         }
     </script>
 </body>
 </html>
+
