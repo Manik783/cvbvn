@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model Viewer</title>
+    <title>3D Model Viewer with Image Placeholder</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         /* Global Styles */
@@ -33,6 +33,22 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             overflow: hidden;
+        }
+
+        /* Image Placeholder Styles */
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-bottom: 2px solid #e6e6e6;
+        }
+
+        /* Description Styles */
+        .description {
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #555;
         }
 
         /* Model Viewer Styles */
@@ -83,14 +99,24 @@
 </head>
 <body>
     <div class="container">
+        <!-- Image Placeholder -->
+        <div class="image-container" id="image-container">
+            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Paratha">
+        </div>
+
+        <!-- Description -->
+        <div class="description" id="description">
+            Paneer Paratha
+        </div>
+
         <!-- Model Viewer -->
         <model-viewer
             id="model-viewer"
-            src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"
-            ios-src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz"
+            src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
+            ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
             ar
             camera-controls
-            alt="A 3D model of the object">
+            alt="A 3D model of Paneer Paratha">
         </model-viewer>
 
         <!-- Buttons -->
@@ -104,6 +130,14 @@
         // Activate AR function
         function activateAR() {
             const modelViewer = document.querySelector('#model-viewer');
+            const imageContainer = document.querySelector('#image-container');
+            const description = document.querySelector('#description');
+
+            // Hide image and description, show model viewer
+            imageContainer.style.display = 'none';
+            description.style.display = 'none';
+            modelViewer.style.display = 'block';
+
             if (modelViewer.activateAR) {
                 modelViewer.activateAR();
             } else {
@@ -114,7 +148,14 @@
         // Enable 3D view function
         function enable3DView() {
             const modelViewer = document.querySelector('#model-viewer');
-            modelViewer.style.display = 'block'; // Show the 3D model
+            const imageContainer = document.querySelector('#image-container');
+            const description = document.querySelector('#description');
+
+            // Hide image and description, show model viewer
+            imageContainer.style.display = 'none';
+            description.style.display = 'none';
+            modelViewer.style.display = 'block';
+
             alert('3D view enabled. Use your mouse or touch gestures to explore!');
         }
     </script>
