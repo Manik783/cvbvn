@@ -1,3 +1,161 @@
-<script src="https://clooned.com/wp-content/uploads/cloons/scripts/clooned.js"></script>
-<clooned-object features="lsc;dt;fs" oid="5f68eb5a0c37465d80019be5e76edbb2"></clooned-object>
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paneer Paratha Viewer</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdfbf7;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container styles */
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            overflow: hidden;
+            font-size: 1rem;
+        }
+
+        /* Image Placeholder Styles */
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-bottom: 2px solid #e6e6e6;
+        }
+
+        /* Description Styles */
+        .description {
+            padding: 15px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .description h2 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .description p {
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #f05537;
+        }
+
+        /* Button container styles */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-top: 2px solid #e6e6e6;
+        }
+
+        /* Button Styles */
+        .ar-button,
+        .view-3d-button {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+
+        .ar-button {
+            background: linear-gradient(135deg, #ff6868, #ff4747);
+        }
+
+        .ar-button:hover {
+            background: linear-gradient(135deg, #ff4747, #ff2323);
+        }
+
+        .view-3d-button {
+            background: linear-gradient(135deg, #ffba55, #ff9933);
+        }
+
+        .view-3d-button:hover {
+            background: linear-gradient(135deg, #ff9933, #ff7711);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <!-- Image Placeholder -->
+        <div class="image-container" id="image-container">
+            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Paratha">
+        </div>
+
+        <!-- Description -->
+        <div class="description" id="description">
+            <h2>Paneer Paratha</h2>
+            <p>A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese).</p>
+            <p>This combo comes with mint chutney and curd.</p>
+            <p class="price">Rs. 180</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <button class="ar-button" onclick="activateAR()">View on your table</button>
+            <button class="view-3d-button" onclick="load3DContent()">3D</button>
+        </div>
+    </div>
+
+    <script>
+        // Activate AR function
+        function activateAR() {
+            const modelViewer = document.querySelector('#model-viewer');
+            const imageContainer = document.querySelector('#image-container');
+
+            // Hide image and show model viewer
+            imageContainer.style.display = 'none';
+            if (modelViewer) {
+                modelViewer.style.display = 'block';
+                modelViewer.activateAR();
+            }
+        }
+
+        // Load 3D Content dynamically
+        function load3DContent() {
+            const mainContainer = document.querySelector('#main-container');
+
+            // Clear existing content
+            mainContainer.innerHTML = '';
+
+            // Inject 3D script and object
+            const script = document.createElement('script');
+            script.src = "https://clooned.com/wp-content/uploads/cloons/scripts/clooned.js";
+            mainContainer.appendChild(script);
+
+            const cloonedObject = document.createElement('clooned-object');
+            cloonedObject.setAttribute('features', 'lsc;dt;fs');
+            cloonedObject.setAttribute('oid', '5f68eb5a0c37465d80019be5e76edbb2');
+            mainContainer.appendChild(cloonedObject);
+        }
+    </script>
+</body>
+</html>
