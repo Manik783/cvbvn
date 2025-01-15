@@ -115,7 +115,7 @@
     <div class="container">
         <!-- Image Placeholder -->
         <div class="image-container" id="image-container">
-            <img src="/mnt/data/demo.jfif" alt="Paneer Paratha">
+            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Paratha">
         </div>
 
         <!-- Description -->
@@ -148,14 +148,11 @@
         function activateAR() {
             const modelViewer = document.querySelector('#model-viewer');
             const imageContainer = document.querySelector('#image-container');
-            const description = document.querySelector('#description');
-
-            // Hide image and description, show model viewer
-            imageContainer.style.display = 'none';
-            description.style.display = 'none';
-            modelViewer.style.display = 'block';
 
             if (modelViewer.activateAR) {
+                alert('Do you want to see the 3D model?');
+                imageContainer.style.display = 'none';
+                modelViewer.style.display = 'block';
                 modelViewer.activateAR();
             } else {
                 alert('AR is not supported on this device.');
