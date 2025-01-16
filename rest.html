@@ -30,11 +30,16 @@
             text-align: center;
         }
 
-        /* Static image styles */
-        .static-image {
+        /* Static image and model-viewer shared styles */
+        .static-image, model-viewer {
             width: 100%;
             height: auto;
             display: block;
+        }
+
+        /* Model viewer is hidden initially */
+        model-viewer {
+            display: none;
         }
 
         /* Button group styles */
@@ -108,13 +113,6 @@
             cursor: pointer;
         }
 
-        /* Model viewer styles */
-        model-viewer {
-            width: 100%;
-            height: 500px; /* Set a fixed height for visibility */
-            display: none; /* Initially hidden */
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -163,14 +161,18 @@
         const staticImage = document.getElementById('static-image');
         const modelViewer = document.getElementById('model-viewer');
 
-        // Load the 3D model viewer
+        // Function to load the 3D model viewer
         function load3D() {
+            // Get the dimensions of the static image
+            const imageStyles = window.getComputedStyle(staticImage);
+            modelViewer.style.width = imageStyles.width;
+            modelViewer.style.height = imageStyles.height;
+
             staticImage.style.display = 'none'; // Hide the static image
             modelViewer.style.display = 'block'; // Show the model viewer
-            console.log('3D View Activated'); // Debugging log
         }
 
-        // Activate AR mode
+        // Function to activate AR mode
         function loadAR() {
             load3D(); // Load the 3D model first
             if (modelViewer.activateAR) {
