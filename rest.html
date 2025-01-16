@@ -149,8 +149,13 @@
         // Activate AR mode
         function loadAR() {
             load3D(); // Load the 3D model first
-            if (modelViewer.activateAR) {
-                modelViewer.activateAR(); // Trigger AR mode
+
+            if (modelViewer.canActivateAR) {
+                try {
+                    modelViewer.activateAR(); // Trigger AR mode
+                } catch (error) {
+                    alert('AR activation failed. Ensure your device supports AR.');
+                }
             } else {
                 alert('AR is not supported on this device.');
             }
