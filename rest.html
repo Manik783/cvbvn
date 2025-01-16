@@ -3,291 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - 3D Viewer</title>
+    <title>3D Food Menu</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
-        /* Reset and global styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
             color: #333;
-            line-height: 1.6;
         }
-
-        /* Main container styles */
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: #fff;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        /* Viewer container (shared for image and model viewer) */
-        .viewer-container {
-            width: 100%;
-            height: 400px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            overflow: hidden;
+        .menu-container {
             display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
             justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
         }
-
-        /* Hide the model viewer initially */
-        model-viewer {
+        .menu-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            width: 300px;
+            text-align: center;
+        }
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+        .menu-item img {
             width: 100%;
-            height: 100%;
-            display: none;
+            height: auto;
         }
-
-        .static-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .menu-item h3 {
+            margin: 15px 0 10px;
+            font-size: 1.5em;
+            color: #444;
         }
-
-        /* Button group styles */
+        .menu-item p {
+            margin: 0 15px 15px;
+            font-size: 1em;
+            color: #666;
+        }
         .button-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
         }
-
         .button {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 1em;
+            color: #fff;
+            background: #007bff;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            background: #f24e1e;
-            color: white;
+            transition: background 0.2s ease;
         }
-
         .button:hover {
-            background: #d82e1e;
+            background: #0056b3;
         }
-
-        /* Dish details styles */
-        .dish-details {
-            text-align: left;
-        }
-
-        .dish-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .dish-description {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .dish-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        .serving-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .read-more {
-            font-size: 0.9rem;
-            color: #f24e1e;
-            cursor: pointer;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                margin: 30px 10px;
-            }
-
-            .button {
-                font-size: 0.8rem;
-                padding: 8px 15px;
-            }
+        model-viewer {
+            display: none;
+            width: 100%;
+            height: 300px;
         }
     </style>
 </head>
 <body>
-    <!-- Item 1 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container1">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image1">
-            <model-viewer
-                id="model-viewer1"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
+    <h1 style="text-align: center; margin: 20px 0; font-size: 2.5em;">Interactive 3D Food Menu</h1>
+    <div class="menu-container">
+        <!-- Example Item -->
+        <div class="menu-item">
+            <img id="image1" src="food-item.jpg" alt="Delicious Food">
+            <model-viewer id="model-viewer1" src="food-item.glb" ar ar-modes="scene-viewer webxr quick-look" camera-controls auto-rotate></model-viewer>
+            <h3>Spaghetti Bolognese</h3>
+            <p>Experience the classic Italian pasta with a rich and savory meat sauce.</p>
+            <div class="button-group">
+                <button class="button" onclick="load3D(1)">View in 3D</button>
+                <button class="button" onclick="loadAR(1)">View in AR</button>
+            </div>
         </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(1)">View on Your Table</button>
-            <button class="button" onclick="load3D(1)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
-
-    <!-- Item 2 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container2">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image2">
-            <model-viewer
-                id="model-viewer2"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(2)">View on Your Table</button>
-            <button class="button" onclick="load3D(2)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
-
-    <!-- Item 3 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container3">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image3">
-            <model-viewer
-                id="model-viewer3"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(3)">View on Your Table</button>
-            <button class="button" onclick="load3D(3)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
-
-    <!-- Item 4 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container4">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image4">
-            <model-viewer
-                id="model-viewer4"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(4)">View on Your Table</button>
-            <button class="button" onclick="load3D(4)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
-
-    <!-- Item 5 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container5">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image5">
-            <model-viewer
-                id="model-viewer5"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(5)">View on Your Table</button>
-            <button class="button" onclick="load3D(5)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
+        <!-- Add more items here following the same structure -->
     </div>
 
     <script>
-        // Load the 3D model viewer
         function load3D(itemIndex) {
-            const staticImage = document.getElementById(`static-image${itemIndex}`);
+            const image = document.getElementById(`image${itemIndex}`);
             const modelViewer = document.getElementById(`model-viewer${itemIndex}`);
-            staticImage.style.display = 'none'; // Hide the static image
-            modelViewer.style.display = 'block'; // Show the model viewer
+
+            image.style.display = 'none';
+            modelViewer.style.display = 'block';
         }
 
-        // Activate AR mode
         function loadAR(itemIndex) {
-            load3D(itemIndex); // Load the 3D model first
             const modelViewer = document.getElementById(`model-viewer${itemIndex}`);
-            if (modelViewer.activateAR) {
-                modelViewer.activateAR(); // Trigger AR mode
-            } else {
-                alert('AR is not supported on this device.');
-            }
+            modelViewer.activateAR(); // Trigger AR view
         }
     </script>
 </body>
 </html>
-
