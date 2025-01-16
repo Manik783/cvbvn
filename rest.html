@@ -111,7 +111,7 @@
         /* Model viewer styles */
         model-viewer {
             width: 100%;
-            height: auto;
+            height: 500px; /* Set a fixed height for visibility */
             display: none; /* Initially hidden */
         }
 
@@ -167,6 +167,7 @@
         function load3D() {
             staticImage.style.display = 'none'; // Hide the static image
             modelViewer.style.display = 'block'; // Show the model viewer
+            console.log('3D View Activated'); // Debugging log
         }
 
         // Activate AR mode
