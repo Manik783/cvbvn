@@ -24,8 +24,8 @@
             position: relative;
             max-width: 700px;
             margin: 50px auto;
-            background: linear-gradient(145deg, #ffffff, #e6e6e6);
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px -2px 4px rgba(0, 0, 0, 0.02);
+            background: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             overflow: hidden;
             text-align: center;
@@ -51,7 +51,7 @@
             font-size: 1rem;
             font-weight: bold;
             color: white;
-            background: linear-gradient(135deg, #007BFF, #0056b3);
+            background: linear-gradient(135deg, #FF5252, #E91E63);
             border: none;
             cursor: pointer;
             text-transform: uppercase;
@@ -59,7 +59,7 @@
             transition: all 0.3s ease-in-out;
         }
         .button:hover {
-            background: linear-gradient(135deg, #0056b3, #003f7f);
+            background: linear-gradient(135deg, #E91E63, #C2185B);
         }
         .button:active {
             transform: scale(0.98);
@@ -70,6 +70,28 @@
             width: 100%;
             height: 400px;
             display: none; /* Initially hidden */
+        }
+
+        /* Description and price styles */
+        .description {
+            padding: 20px;
+            text-align: left;
+            border-top: 1px solid #eee;
+        }
+        .description h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #FF5252;
+        }
+        .description p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #666;
+        }
+        .description .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
         }
 
         /* Responsive Design */
@@ -104,6 +126,13 @@
         <div class="button-group">
             <button class="button" onclick="load3D()">View in 3D</button>
             <button class="button" onclick="loadAR()">View in AR</button>
+        </div>
+
+        <!-- Description and Price -->
+        <div class="description">
+            <h2>Paneer Paratha</h2>
+            <p>A delicious and hearty Indian flatbread stuffed with spiced paneer (cottage cheese), served hot and perfect for any meal of the day.</p>
+            <div class="price">Price: ₹150</div>
         </div>
     </div>
 
