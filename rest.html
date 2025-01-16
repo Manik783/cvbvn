@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR and 3D Model Viewer</title>
+    <title>Paneer Paratha Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         /* Reset and global styles */
@@ -14,114 +14,141 @@
         }
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
+            background-color: #fffdfa;
             color: #333;
             line-height: 1.6;
         }
 
         /* Main container styles */
         .container {
-            position: relative;
             max-width: 700px;
             margin: 50px auto;
-            background: linear-gradient(145deg, #ffffff, #e6e6e6);
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px -2px 4px rgba(0, 0, 0, 0.02);
+            padding: 20px;
+            background: #fdfdfb;
+            border: 1px solid #f0f0f0;
             border-radius: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+        }
+
+        /* Image or Model Viewer container */
+        .image-container {
             text-align: center;
         }
-
-        /* Static image styles */
-        .static-image {
+        img, model-viewer {
             width: 100%;
-            height: 400px;
-            object-fit: cover;
-            display: block;
+            height: auto;
+            border-radius: 10px;
         }
 
-        /* Button styles */
+        /* Description and details */
+        .details {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .details h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .details .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .details p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .details a {
+            font-size: 0.9rem;
+            color: #ffa500;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons container */
         .button-group {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            padding: 15px;
+            gap: 15px;
         }
         .button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 1rem;
             font-weight: bold;
             color: white;
-            background: linear-gradient(135deg, #007BFF, #0056b3);
             border: none;
             cursor: pointer;
+            border-radius: 25px;
             text-transform: uppercase;
-            border-radius: 5px;
             transition: all 0.3s ease-in-out;
         }
+        .button-3d {
+            background: linear-gradient(135deg, #ff7f50, #ff4500);
+        }
+        .button-ar {
+            background: linear-gradient(135deg, #32cd32, #228b22);
+        }
+
         .button:hover {
-            background: linear-gradient(135deg, #0056b3, #003f7f);
-        }
-        .button:active {
-            transform: scale(0.98);
-        }
-
-        /* Model viewer styles */
-        model-viewer {
-            width: 100%;
-            height: 400px;
-            display: none; /* Initially hidden */
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                margin: 30px 10px;
-            }
-            .button {
-                font-size: 0.9rem;
-                padding: 8px 15px;
-            }
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Static Image -->
-        <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image">
+        <!-- Static Image Display -->
+        <div class="image-container">
+            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Paratha">
+        </div>
 
-        <!-- Model Viewer -->
-        <model-viewer
-            id="model-viewer"
-            src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-            ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-            ar
-            ar-modes="scene-viewer quick-look"
-            camera-controls
-            alt="A 3D model of the object">
-        </model-viewer>
+        <!-- Details Section -->
+        <div class="details">
+            <h2>Paneer Paratha</h2>
+            <div class="price">Rs. 180</div>
+            <p>Serves 1<br>A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</p>
+            <a href="#">Read More</a>
+        </div>
 
-        <!-- Buttons -->
+        <!-- Buttons for 3D and AR -->
         <div class="button-group">
-            <button class="button" onclick="load3D()">View in 3D</button>
-            <button class="button" onclick="loadAR()">View in AR</button>
+            <button class="button button-3d" onclick="load3DModel()">3D</button>
+            <button class="button button-ar" onclick="activateAR()">View on your table</button>
+        </div>
+
+        <!-- Model Viewer (Hidden initially) -->
+        <div class="image-container" id="model-container" style="display: none;">
+            <model-viewer
+                id="ar-viewer"
+                src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.glb"
+                ios-src="https://dcfvgbhj.netlify.app/AR-Code-Object-Capture-app-1734870700.usdz"
+                ar
+                ar-modes="scene-viewer quick-look"
+                camera-controls
+                alt="A 3D model of Paneer Paratha">
+            </model-viewer>
         </div>
     </div>
 
     <script>
-        const staticImage = document.getElementById('static-image');
-        const modelViewer = document.getElementById('model-viewer');
-
-        // Load the 3D model viewer
-        function load3D() {
-            staticImage.style.display = 'none'; // Hide the static image
-            modelViewer.style.display = 'block'; // Show the model viewer
+        // Function to load the 3D model
+        function load3DModel() {
+            const modelContainer = document.getElementById('model-container');
+            modelContainer.style.display = 'block';
+            window.scrollTo({ top: modelContainer.offsetTop, behavior: 'smooth' });
         }
 
-        // Activate AR mode
-        function loadAR() {
-            load3D(); // Load the 3D model first
-            if (modelViewer.activateAR) {
-                modelViewer.activateAR(); // Trigger AR mode
+        // Function to activate AR mode
+        function activateAR() {
+            const modelViewer = document.querySelector('#ar-viewer');
+            if (modelViewer && modelViewer.activateAR) {
+                modelViewer.activateAR();
             } else {
                 alert('AR is not supported on this device.');
             }
