@@ -12,36 +12,53 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Arial', sans-serif;
             background-color: #fafafa;
             color: #333;
             line-height: 1.6;
+            padding: 20px 0;
         }
 
         /* Main container styles */
         .container {
-            max-width: 700px;
-            margin: 50px auto;
+            max-width: 800px;
+            margin: 40px auto;
             background: #fff;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         /* Viewer container (shared for image and model viewer) */
         .viewer-container {
             width: 100%;
-            height: 400px;
+            height: 450px;
             background: #f9f9f9;
             border-radius: 10px;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
             margin-bottom: 20px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Static image styles */
+        .static-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
         }
 
         /* Hide the model viewer initially */
@@ -51,72 +68,85 @@
             display: none;
         }
 
-        .static-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         /* Button group styles */
         .button-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
         .button {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             text-transform: uppercase;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 12px 30px;
+            border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             background: #f24e1e;
             color: white;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .button:hover {
             background: #d82e1e;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            transform: scale(0.98);
         }
 
         /* Dish details styles */
         .dish-details {
-            text-align: left;
+            text-align: center;
         }
 
         .dish-name {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: bold;
             margin-bottom: 10px;
             color: #333;
+            transition: color 0.3s ease;
         }
 
-        .dish-description {
+        .dish-name:hover {
+            color: #f24e1e;
+        }
+
+        .dish-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .serving-info {
             font-size: 1rem;
             color: #666;
             margin-bottom: 10px;
         }
 
-        .dish-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        .serving-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 10px;
+        .dish-description {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
         .read-more {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #f24e1e;
             cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #d82e1e;
         }
 
         /* Responsive Design */
@@ -126,8 +156,16 @@
             }
 
             .button {
-                font-size: 0.8rem;
-                padding: 8px 15px;
+                font-size: 0.9rem;
+                padding: 10px 25px;
+            }
+
+            .dish-name {
+                font-size: 1.4rem;
+            }
+
+            .dish-description {
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -214,80 +252,22 @@
         </div>
     </div>
 
-    <!-- Item 4 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container4">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image4">
-            <model-viewer
-                id="model-viewer4"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(4)">View on Your Table</button>
-            <button class="button" onclick="load3D(4)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
-
-    <!-- Item 5 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container5">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image5">
-            <model-viewer
-                id="model-viewer5"
-                src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(5)">View on Your Table</button>
-            <button class="button" onclick="load3D(5)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
-
     <script>
-        // Load the 3D model viewer
-        function load3D(itemIndex) {
-            const staticImage = document.getElementById(`static-image${itemIndex}`);
+        // Function to load AR view
+        function loadAR(itemIndex) {
             const modelViewer = document.getElementById(`model-viewer${itemIndex}`);
-            staticImage.style.display = 'none'; // Hide the static image
-            modelViewer.style.display = 'block'; // Show the model viewer
+            const staticImage = document.getElementById(`static-image${itemIndex}`);
+            modelViewer.style.display = 'block';
+            staticImage.style.opacity = '0';
         }
 
-        // Activate AR mode
-        function loadAR(itemIndex) {
-            load3D(itemIndex); // Load the 3D model first
+        // Function to load 3D view
+        function load3D(itemIndex) {
             const modelViewer = document.getElementById(`model-viewer${itemIndex}`);
-            if (modelViewer.activateAR) {
-                modelViewer.activateAR(); // Trigger AR mode
-            } else {
-                alert('AR is not supported on this device.');
-            }
+            const staticImage = document.getElementById(`static-image${itemIndex}`);
+            modelViewer.style.display = 'none';
+            staticImage.style.opacity = '1';
         }
     </script>
 </body>
 </html>
-
