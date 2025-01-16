@@ -24,11 +24,10 @@
             position: relative;
             max-width: 700px;
             margin: 50px auto;
-            background: linear-gradient(145deg, #ffffff, #e6e6e6);
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px -2px 4px rgba(0, 0, 0, 0.02);
+            background: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             overflow: hidden;
-            text-align: center;
         }
 
         /* Static image styles */
@@ -39,12 +38,13 @@
             display: block;
         }
 
-        /* Button styles */
+        /* Button group styles */
         .button-group {
             display: flex;
-            justify-content: center;
-            gap: 10px;
+            justify-content: space-around;
             padding: 15px;
+            background: #f9f9f9;
+            border-top: 1px solid #ddd;
         }
         .button {
             padding: 10px 20px;
@@ -63,6 +63,27 @@
         }
         .button:active {
             transform: scale(0.98);
+        }
+
+        /* Dish details styles */
+        .dish-details {
+            padding: 20px;
+            text-align: left;
+        }
+        .dish-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .dish-description {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .dish-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
         }
 
         /* Model viewer styles */
@@ -97,13 +118,20 @@
             ar
             ar-modes="scene-viewer quick-look"
             camera-controls
-            alt="A 3D model of the object">
+            alt="A 3D model of the Paneer Paratha">
         </model-viewer>
 
         <!-- Buttons -->
         <div class="button-group">
             <button class="button" onclick="load3D()">View in 3D</button>
             <button class="button" onclick="loadAR()">View in AR</button>
+        </div>
+
+        <!-- Dish Details -->
+        <div class="dish-details">
+            <div class="dish-name">Paneer Paratha</div>
+            <div class="dish-description">A delicious Indian flatbread stuffed with flavorful paneer (cottage cheese) and aromatic spices, served hot with butter and chutney.</div>
+            <div class="dish-price">Price: ₹150</div>
         </div>
     </div>
 
