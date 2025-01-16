@@ -6,7 +6,7 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background-color: #fbf9f4; /* Light background as per image */
     color: #333;
     line-height: 1.6;
 }
@@ -15,83 +15,112 @@ body {
 .container {
     position: relative;
     max-width: 700px;
-    margin: 50px auto;
+    margin: 30px auto;
     background: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    text-align: center; /* Center content alignment */
 }
 
 /* Static image styles */
 .static-image {
     width: 100%;
-    height: 400px;
-    object-fit: cover;
+    height: 350px;
+    object-fit: contain;
     display: block;
+    background: #fff; /* Plain white background */
 }
 
 /* Button group styles */
 .button-group {
     display: flex;
-    justify-content: space-around;
-    padding: 15px;
-    background: #f9f9f9;
-    border-top: 1px solid #ddd;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #fff;
+    border-top: 1px solid #eee;
 }
 .button {
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 12px 20px;
+    font-size: 0.9rem;
     font-weight: bold;
     color: white;
-    background: linear-gradient(135deg, #007BFF, #0056b3);
     border: none;
     cursor: pointer;
     text-transform: uppercase;
-    border-radius: 5px;
+    border-radius: 25px;
     transition: all 0.3s ease-in-out;
 }
-.button:hover {
-    background: linear-gradient(135deg, #0056b3, #003f7f);
+.button:first-child {
+    background: linear-gradient(90deg, #ffddc5, #ffa3a3); /* Pink gradient for AR */
 }
-.button:active {
-    transform: scale(0.98);
+.button:first-child:hover {
+    background: linear-gradient(90deg, #ffa3a3, #ff867c);
+}
+.button:last-child {
+    background: linear-gradient(90deg, #fed86f, #fea735); /* Yellow gradient for 3D */
+}
+.button:last-child:hover {
+    background: linear-gradient(90deg, #fea735, #fd9b30);
 }
 
 /* Dish details styles */
 .dish-details {
-    padding: 20px;
-    text-align: left;
+    padding: 20px 15px;
+    text-align: center;
 }
 .dish-name {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #000; /* Black title */
+}
+.dish-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #000; /* Bold black price */
     margin-bottom: 10px;
 }
 .dish-description {
-    font-size: 1rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: #666; /* Subtle grey description */
     margin-bottom: 10px;
 }
-.dish-price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #000;
+
+/* Read Less/More link */
+.dish-description a {
+    font-size: 0.85rem;
+    color: #fea735; /* Yellow link */
+    text-decoration: none;
+    font-weight: 600;
+}
+.dish-description a:hover {
+    text-decoration: underline;
 }
 
 /* Model viewer styles */
 model-viewer {
     width: 100%;
-    height: 400px;
+    height: 350px;
     display: none; /* Initially hidden */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        margin: 30px 10px;
+        margin: 20px 10px;
     }
     .button {
-        font-size: 0.9rem;
-        padding: 8px 15px;
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+    .dish-name {
+        font-size: 1rem;
+    }
+    .dish-price {
+        font-size: 1rem;
+    }
+    .dish-description {
+        font-size: 0.8rem;
     }
 }
