@@ -6,65 +6,55 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #fafafa; /* Updated to match the new background color */
+    background-color: #f5f5f5;
     color: #333;
     line-height: 1.6;
 }
 
 /* Main container styles */
 .container {
+    position: relative;
     max-width: 700px;
     margin: 50px auto;
     background: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Added for center alignment */
 }
 
 /* Static image styles */
 .static-image {
     width: 100%;
-    height: auto; /* Changed to 'auto' for better scaling */
+    height: 400px;
+    object-fit: cover;
     display: block;
 }
 
 /* Button group styles */
 .button-group {
     display: flex;
-    justify-content: space-between; /* Updated to match spacing */
-    align-items: center; /* Ensures buttons align vertically */
+    justify-content: space-around;
     padding: 15px;
     background: #f9f9f9;
+    border-top: 1px solid #ddd;
 }
-
 .button {
-    font-size: 0.9rem;
-    font-weight: 600; /* Updated font-weight */
-    text-transform: uppercase;
     padding: 10px 20px;
-    border-radius: 20px; /* Updated to rounded buttons */
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
 }
-
-.ar-button {
-    background: #fcebea; /* Specific AR button style */
-    color: #f24e1e;
+.button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
 }
-
-.ar-button:hover {
-    background: #f9c6bf; /* Hover effect for AR button */
-}
-
-.view-3d-button {
-    background: #ffecec; /* Specific 3D button style */
-    color: #fc5a5a;
-}
-
-.view-3d-button:hover {
-    background: #fdb3b3; /* Hover effect for 3D button */
+.button:active {
+    transform: scale(0.98);
 }
 
 /* Dish details styles */
@@ -73,10 +63,9 @@ body {
     text-align: left;
 }
 .dish-name {
-    font-size: 1.4rem; /* Updated font size */
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #333;
 }
 .dish-description {
     font-size: 1rem;
@@ -87,23 +76,12 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
     color: #000;
-    margin-bottom: 10px;
-}
-.serving-info {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 10px;
-}
-.read-more {
-    font-size: 0.9rem;
-    color: #f24e1e; /* Matching AR button color */
-    cursor: pointer;
 }
 
 /* Model viewer styles */
 model-viewer {
     width: 100%;
-    height: auto; /* Changed to 'auto' for better scaling */
+    height: 400px;
     display: none; /* Initially hidden */
 }
 
@@ -113,7 +91,7 @@ model-viewer {
         margin: 30px 10px;
     }
     .button {
-        font-size: 0.8rem; /* Adjusted for smaller screens */
+        font-size: 0.9rem;
         padding: 8px 15px;
     }
 }
