@@ -179,7 +179,14 @@
                 modelViewer.activateAR(); // Trigger AR mode
             } else {
                 alert('AR is not supported on this device.');
+                fallbackToImage(); // Show static image if AR fails
             }
+        }
+
+        // Function to fall back to the static image
+        function fallbackToImage() {
+            modelViewer.style.display = 'none'; // Hide the model viewer
+            staticImage.style.display = 'block'; // Show the static image
         }
     </script>
 </body>
