@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR and 3D Model Viewer</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        /* Reset and global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Main container styles */
+        .container {
+            position: relative;
+            max-width: 700px;
+            margin: 50px auto;
+            background: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Static image styles */
+        .static-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Button group styles */
+        .button-group {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: #f9f9f9;
+            border-top: 1px solid #ddd;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+        .button:hover {
+            background: linear-gradient(135deg, #0056b3, #003f7f);
+        }
+        .button:active {
+            transform: scale(0.98);
+        }
+
+        /* Dish details styles */
+        .dish-details {
+            padding: 20px;
+            text-align: left;
+        }
+        .dish-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .dish-description {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .dish-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Model viewer styles */
+        model-viewer {
+            width: 100%;
+            height: 400px;
+            display: none; /* Initially hidden */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 30px 10px;
+            }
+            .button {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Static Image -->
+        <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image">
+
+        <!-- Model Viewer -->
+        <model-viewer
+            id="model-viewer"
+            src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
+            ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
+            ar
+            ar-modes="scene-viewer quick-look"
+            camera-controls
+            alt="A 3D model of the Paneer Paratha">
+        </model-viewer>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button class="button" onclick="load3D()">View in 3D</button>
+            <button class="button" onclick="loadAR()">View in AR</button>
+        </div>
+
+        <!-- Dish Details -->
+        <div class="dish-details">
+            <div class="dish-name">Paneer Paratha</div>
+            <div class="dish-description">A delicious Indian flatbread stuffed with flavorful paneer (cottage cheese) and aromatic spices, served hot with butter and chutney.</div>
+            <div class="dish-price">Price: ₹150</div>
+        </div>
+    </div>
+
+    <script>
+        const staticImage = document.getElementById('static-image');
+        const modelViewer = document.getElementById('model-viewer');
+
+        // Load the 3D model viewer
+        function load3D() {
+            staticImage.style.display = 'none'; // Hide the static image
+            modelViewer.style.display = 'block'; // Show the model viewer
+        }
+
+        // Activate AR mode
+        function loadAR() {
+            load3D(); // Load the 3D model first
+            if (modelViewer.activateAR) {
+                modelViewer.activateAR(); // Trigger AR mode
+            } else {
+                alert('AR is not supported on this device.');
+            }
+        }
+    </script>
+</body>
+</html>
