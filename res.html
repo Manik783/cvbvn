@@ -6,6 +6,7 @@
     <title>Restaurant Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         .expanded { -webkit-line-clamp: unset !important; }
         .border-light-pink { border-color: rgb(254, 227, 216); }
@@ -50,6 +51,27 @@
             padding: 12px 24px;
             border-radius: 12px;
             font-weight: 500;
+        }
+        .viewer-container {
+            width: 100%;
+            height: 300px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        .static-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -111,7 +133,7 @@
             <div class="flex flex-row-reverse justify-between">
                 <div class="relative">
                     <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Dish" class="w-24 h-24 rounded-lg object-cover">
-                    <button class="view-ar absolute bottom-1 left-1 bg-transparent text-light-pink px-2 py-1 text-xs rounded border border-light-pink">
+                    <button class="view-ar absolute bottom-1 left-1 bg-transparent text-orange px-2 py-1 text-xs rounded border border-light-pink">
                         View in AR
                     </button>
                 </div>
@@ -135,7 +157,7 @@
             <div class="flex flex-row-reverse justify-between">
                 <div class="relative">
                     <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Dish" class="w-24 h-24 rounded-lg object-cover">
-                    <button class="view-ar absolute bottom-1 left-1 bg-transparent text-light-pink px-2 py-1 text-xs rounded border border-light-pink">
+                    <button class="view-ar absolute bottom-1 left-1 bg-transparent text-orange px-2 py-1 text-xs rounded border border-light-pink">
                         View in AR
                     </button>
                 </div>
@@ -170,11 +192,22 @@
                 </svg>
             </button>
             
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="AR View" class="w-full h-48 object-cover rounded-xl">
-            
+            <div class="viewer-container" id="ar-viewer-container">
+                <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="ar-static-image">
+                <model-viewer
+                    id="ar-model-viewer"
+                    src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb"
+                    ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
+                    ar
+                    ar-modes="scene-viewer quick-look"
+                    camera-controls
+                    alt="A 3D model of the dish">
+                </model-viewer>
+            </div>
+
             <div class="flex gap-4 mt-6 justify-center">
-                <button class="ar-button">View in AR</button>
-                <button class="ar-button">3D</button>
+                <button class="ar-button" onclick="loadAR()">View in AR</button>
+                <button class="ar-button" onclick="load3D()">3D</button>
             </div>
 
             <div class="mt-6 flex-1">
@@ -273,6 +306,25 @@
                 item.style.display = dishName.includes(searchTerm) ? 'block' : 'none';
             });
         });
+
+        // Load the 3D model viewer
+        function load3D() {
+            const staticImage = document.getElementById('ar-static-image');
+            const modelViewer = document.getElementById('ar-model-viewer');
+            staticImage.style.display = 'none'; // Hide the static image
+            modelViewer.style.display = 'block'; // Show the model viewer
+        }
+
+        // Activate AR mode
+        function loadAR() {
+            load3D(); // Load the 3D model first
+            const modelViewer = document.getElementById('ar-model-viewer');
+            if (modelViewer.activateAR) {
+                modelViewer.activateAR(); // Trigger AR mode
+            } else {
+                alert('AR is not supported on this device.');
+            }
+        }
     </script>
 </body>
 </html>
