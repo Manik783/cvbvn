@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Page with 3D Model</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .product-container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .iframe-container {
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    h1 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="product-container">
+    <h1>Electronic Kettle - 3D View</h1>
+
+    <!-- Embed your iframe here -->
+    <div class="iframe-container">
+      <iframe 
+        src="https://d29pu3it4iogfy.cloudfront.net/models/680f237c22d9e03f81e5df42/electronic_kettle.glb" 
+        frameborder="0" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <p style="text-align:center; margin-top: 20px;">
+      Rotate, zoom, and explore the product in 3D!
+    </p>
+  </div>
+
+</body>
+</html>
