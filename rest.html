@@ -1,182 +1,88 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - 3D Viewer</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        /* Reset and global styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #fafafa;
-            color: #333;
-            line-height: 1.6;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu – 3D Viewer</title>
 
-        /* Main container styles */
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: #fff;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+  <!-- model-viewer web component -->
+  <script type="module"
+          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-        /* Viewer container (shared for image and model viewer) */
-        .viewer-container {
-            width: 100%;
-            height: 400px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+  <style>
+    /* ---------- Base & Layout ---------- */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#333;line-height:1.6}
+    .container{max-width:700px;margin:50px auto 30px;background:#fff;border-radius:15px;
+               box-shadow:0 4px 6px rgba(0,0,0,.1);padding:20px}
+    .viewer-container{width:100%;height:400px;background:#f9f9f9;border-radius:10px;
+                      display:flex;justify-content:center;align-items:center;margin-bottom:20px;overflow:hidden}
+    .viewer-container model-viewer,
+    .viewer-container img{width:100%;height:100%;object-fit:cover}
 
-        /* Hide the model viewer initially */
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
+    /* Hide model-viewer until needed */
+    model-viewer{display:none}
 
-        .static-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    /* ---------- Buttons ---------- */
+    .button-group{display:flex;justify-content:space-between;margin-bottom:20px}
+    .button{font-size:.9rem;font-weight:600;text-transform:uppercase;padding:10px 20px;
+            border:none;border-radius:20px;cursor:pointer;background:#f24e1e;color:#fff;
+            transition:background .3s}
+    .button:hover{background:#d82e1e}
 
-        /* Button group styles */
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    /* ---------- Text ---------- */
+    .dish-name{font-size:1.4rem;font-weight:bold;margin-bottom:10px}
+    .dish-price{font-size:1.2rem;font-weight:bold;margin-bottom:10px}
+    .dish-description,.serving-info{color:#666;margin-bottom:10px}
+    .read-more{font-size:.9rem;color:#f24e1e;cursor:pointer}
 
-        .button {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            background: #f24e1e;
-            color: white;
-        }
-
-        .button:hover {
-            background: #d82e1e;
-        }
-
-        /* Dish details styles */
-        .dish-details {
-            text-align: left;
-        }
-
-        .dish-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .dish-description {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .dish-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        .serving-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .read-more {
-            font-size: 0.9rem;
-            color: #f24e1e;
-            cursor: pointer;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                margin: 30px 10px;
-            }
-
-            .button {
-                font-size: 0.8rem;
-                padding: 8px 15px;
-            }
-        }
-    </style>
+    /* ---------- Responsive ---------- */
+    @media(max-width:768px){
+      .container{margin:30px 10px}
+      .button{font-size:.8rem;padding:8px 15px}
+    }
+  </style>
 </head>
 <body>
-    
 
-  <!-- START: AR Menu Items -->
+<!-- ─────────────────────────  MENU CARDS  ───────────────────────── -->
 
-
-    <!-- Item 1 -->
-    <div class="container">
-        <div class="viewer-container" id="viewer-container1">
-            <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image1">
-            <model-viewer
-                id="model-viewer1"
-                src="https://d29pu3it4iogfy.cloudfront.net/models/680f237c22d9e03f81e5df42/electronic_kettle.glb"
-                ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
-                ar
-                ar-modes="scene-viewer quick-look"
-                camera-controls
-                alt="A 3D model of the Paneer Paratha">
-            </model-viewer>
-        </div>
-        <div class="button-group">
-            <button class="button" onclick="loadAR(1)">View on Your Table</button>
-            <button class="button" onclick="load3D(1)">3D</button>
-        </div>
-        <div class="dish-details">
-            <div class="dish-name">Paneer Paratha</div>
-            <div class="dish-price">Rs. 180</div>
-            <div class="serving-info">Serves 1</div>
-            <div class="dish-description">A type of stuffed paratha, where the filling is made of spiced paneer (Indian cottage cheese). This combo comes with mint chutney and curd.</div>
-            <div class="read-more">Read Less</div>
-        </div>
-    </div>
+<!-- Item 1 -->
+<div class="container">
+  <div class="viewer-container">
+    <img id="static-image1" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Paratha preview"/>
+    <model-viewer id="model-viewer1"
+                  src="https://d29pu3it4iogfy.cloudfront.net/models/680f237c22d9e03f81e5df42/electronic_kettle.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Paneer Paratha">
+    </model-viewer>
+  </div>
+  <div class="button-group">
+    <button class="button" onclick="loadAR(1)">View on Your Table</button>
+    <button class="button" onclick="load3D(1)">3D</button>
+  </div>
+  <div class="dish-details">
+    <div class="dish-name">Paneer Paratha</div>
+    <div class="dish-price">Rs. 180</div>
+    <div class="serving-info">Serves 1</div>
+    <div class="dish-description">Stuffed paratha with spiced paneer, mint chutney &amp; curd.</div>
+    <div class="read-more">Read Less</div>
+  </div>
+</div>
 
 <!-- Item 2 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container2">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image2">
-    <model-viewer
-             id="model-viewer2"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-48-46_Pizza_Veggie_Delight_Special.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-48-46_Pizza_Veggie_Delight_Special.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Veggie Delight Special Pizza"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image2" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Veggie Delight Special Pizza preview"/>
+    <model-viewer id="model-viewer2"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-48-46_Pizza_Veggie_Delight_Special.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-48-46_Pizza_Veggie_Delight_Special.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Veggie Delight Special Pizza">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(2)">View on Your Table</button>
@@ -184,7 +90,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Veggie Delight Special Pizza</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -193,16 +99,15 @@
 
 <!-- Item 3 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container3">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image3">
-    <model-viewer
-             id="model-viewer3"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-51-50_Farm_Fresh_Pizza.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-51-50_Farm_Fresh_Pizza.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Farm Fresh Pizza"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image3" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Farm Fresh Pizza preview"/>
+    <model-viewer id="model-viewer3"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-51-50_Farm_Fresh_Pizza.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-51-50_Farm_Fresh_Pizza.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Farm Fresh Pizza">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(3)">View on Your Table</button>
@@ -210,7 +115,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Farm Fresh Pizza</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -219,16 +124,15 @@
 
 <!-- Item 4 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container4">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image4">
-    <model-viewer
-             id="model-viewer4"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-11-38-16_Hot_Garlic_Momos.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-11-38-16_Hot_Garlic_Momos.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Hot Garlic Momos"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image4" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Hot Garlic Momos preview"/>
+    <model-viewer id="model-viewer4"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-11-38-16_Hot_Garlic_Momos.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-11-38-16_Hot_Garlic_Momos.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Hot Garlic Momos">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(4)">View on Your Table</button>
@@ -236,7 +140,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Hot Garlic Momos</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -245,16 +149,15 @@
 
 <!-- Item 5 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container5">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image5">
-    <model-viewer
-             id="model-viewer5"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-05-32-51_Veg_Sizzler.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-05-32-51_Veg_Sizzler.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Veg Sizzler"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image5" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Veg Sizzler preview"/>
+    <model-viewer id="model-viewer5"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-05-32-51_Veg_Sizzler.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-05-32-51_Veg_Sizzler.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Veg Sizzler">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(5)">View on Your Table</button>
@@ -262,7 +165,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Veg Sizzler</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -271,16 +174,15 @@
 
 <!-- Item 6 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container6">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image6">
-    <model-viewer
-             id="model-viewer6"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-08-05_Dosa.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-08-05_Dosa.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Dosa"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image6" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Dosa preview"/>
+    <model-viewer id="model-viewer6"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-08-05_Dosa.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-08-05_Dosa.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Dosa">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(6)">View on Your Table</button>
@@ -288,7 +190,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Dosa</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -297,16 +199,15 @@
 
 <!-- Item 7 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container7">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image7">
-    <model-viewer
-             id="model-viewer7"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-05-23-32_Veg_Grilled_Sandwich.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-05-23-32_Veg_Grilled_Sandwich.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Veg Grilled Sandwich"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image7" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Veg Grilled Sandwich preview"/>
+    <model-viewer id="model-viewer7"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-05-23-32_Veg_Grilled_Sandwich.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-05-23-32_Veg_Grilled_Sandwich.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Veg Grilled Sandwich">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(7)">View on Your Table</button>
@@ -314,7 +215,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Veg Grilled Sandwich</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -323,16 +224,15 @@
 
 <!-- Item 8 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container8">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image8">
-    <model-viewer
-             id="model-viewer8"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-32-17_cheese_corn_nuggets.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-32-17_cheese_corn_nuggets.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Cheese Corn Nuggets"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image8" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Cheese Corn Nuggets preview"/>
+    <model-viewer id="model-viewer8"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-32-17_cheese_corn_nuggets.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-32-17_cheese_corn_nuggets.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Cheese Corn Nuggets">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(8)">View on Your Table</button>
@@ -340,7 +240,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Cheese Corn Nuggets</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -349,16 +249,15 @@
 
 <!-- Item 9 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container9">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image9">
-    <model-viewer
-             id="model-viewer9"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-38-59_Paneer_Pakoda.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-38-59_Paneer_Pakoda.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Paneer Pakoda"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image9" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Pakoda preview"/>
+    <model-viewer id="model-viewer9"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-38-59_Paneer_Pakoda.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-38-59_Paneer_Pakoda.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Paneer Pakoda">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(9)">View on Your Table</button>
@@ -366,7 +265,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Paneer Pakoda</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -375,16 +274,15 @@
 
 <!-- Item 10 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container10">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image10">
-    <model-viewer
-             id="model-viewer10"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-29-13_Mushroom_Chilli.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-29-13_Mushroom_Chilli.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Mushroom Chilli"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image10" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Mushroom Chilli preview"/>
+    <model-viewer id="model-viewer10"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-29-13_Mushroom_Chilli.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-29-13_Mushroom_Chilli.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Mushroom Chilli">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(10)">View on Your Table</button>
@@ -392,7 +290,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Mushroom Chilli</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -401,16 +299,15 @@
 
 <!-- Item 11 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container11">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image11">
-    <model-viewer
-             id="model-viewer11"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-40-32_Crispy_Corn.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-40-32_Crispy_Corn.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Crispy Corn"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image11" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Crispy Corn preview"/>
+    <model-viewer id="model-viewer11"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-40-32_Crispy_Corn.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-40-32_Crispy_Corn.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Crispy Corn">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(11)">View on Your Table</button>
@@ -418,7 +315,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Crispy Corn</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -427,16 +324,15 @@
 
 <!-- Item 12 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container12">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image12">
-    <model-viewer
-             id="model-viewer12"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-33-38_Paneer_65.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-33-38_Paneer_65.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Paneer 65"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image12" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer 65 preview"/>
+    <model-viewer id="model-viewer12"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-33-38_Paneer_65.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-33-38_Paneer_65.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Paneer 65">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(12)">View on Your Table</button>
@@ -444,7 +340,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Paneer 65</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -453,16 +349,15 @@
 
 <!-- Item 13 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container13">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image13">
-    <model-viewer
-             id="model-viewer13"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-11-36-33_honey_glazed_potato.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-11-36-33_honey_glazed_potato.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Honey Glazed Potato"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image13" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Honey Glazed Potato preview"/>
+    <model-viewer id="model-viewer13"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-11-36-33_honey_glazed_potato.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-11-36-33_honey_glazed_potato.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Honey Glazed Potato">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(13)">View on Your Table</button>
@@ -470,7 +365,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Honey Glazed Potato</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -479,16 +374,15 @@
 
 <!-- Item 14 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container14">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image14">
-    <model-viewer
-             id="model-viewer14"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-13-31_Masala_Chaap.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-13-31_Masala_Chaap.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Masala Chaap"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image14" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Masala Chaap preview"/>
+    <model-viewer id="model-viewer14"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-13-31_Masala_Chaap.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-13-31_Masala_Chaap.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Masala Chaap">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(14)">View on Your Table</button>
@@ -496,7 +390,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Masala Chaap</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -505,16 +399,15 @@
 
 <!-- Item 15 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container15">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image15">
-    <model-viewer
-             id="model-viewer15"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/assets/3d/glb/5f5ed230-8264-48f1-9190-c1a9b112280a/17-05-2023-05-38-21_veg_sikh_kabab.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/assets/3d/usdz/5f5ed230-8264-48f1-9190-c1a9b112280a/17-05-2023-05-38-21_veg_sikh_kabab.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Veg Sikh Kabab"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image15" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Veg Sikh Kabab preview"/>
+    <model-viewer id="model-viewer15"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/assets/3d/glb/5f5ed230-8264-48f1-9190-c1a9b112280a/17-05-2023-05-38-21_veg_sikh_kabab.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/assets/3d/usdz/5f5ed230-8264-48f1-9190-c1a9b112280a/17-05-2023-05-38-21_veg_sikh_kabab.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Veg Sikh Kabab">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(15)">View on Your Table</button>
@@ -522,7 +415,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Veg Sikh Kabab</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -531,16 +424,15 @@
 
 <!-- Item 16 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container16">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image16">
-    <model-viewer
-             id="model-viewer16"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-38-00_Paneer_Malai_Tikka.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-38-00_Paneer_Malai_Tikka.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Paneer Malai Tikka"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image16" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Paneer Malai Tikka preview"/>
+    <model-viewer id="model-viewer16"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-38-00_Paneer_Malai_Tikka.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-38-00_Paneer_Malai_Tikka.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Paneer Malai Tikka">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(16)">View on Your Table</button>
@@ -548,7 +440,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Paneer Malai Tikka</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -557,16 +449,15 @@
 
 <!-- Item 17 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container17">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image17">
-    <model-viewer
-             id="model-viewer17"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-05-10-44_Tandoori_Chaap.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-05-10-44_Tandoori_Chaap.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Tandoori Chaap"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image17" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Tandoori Chaap preview"/>
+    <model-viewer id="model-viewer17"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-05-10-44_Tandoori_Chaap.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-05-10-44_Tandoori_Chaap.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Tandoori Chaap">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(17)">View on Your Table</button>
@@ -574,7 +465,7 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Tandoori Chaap</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
@@ -583,16 +474,15 @@
 
 <!-- Item 18 -->
 <div class="container">
-  <div class="viewer-container" id="viewer-container18">
-    <img src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Static preview" class="static-image" id="static-image18">
-    <model-viewer
-             id="model-viewer18"
-             src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-53-07_Filling_cheese_momo.glb"
-             ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-53-07_Filling_cheese_momo.usdz"
-             ar
-             ar-modes="scene-viewer quick-look"
-             camera-controls
-             alt="A 3D model of the Filling Cheese Momo"> </model-viewer>
+  <div class="viewer-container">
+    <img id="static-image18" src="https://dcfvgbhj.netlify.app/paneer.jfif" alt="Filling Cheese Momo preview"/>
+    <model-viewer id="model-viewer18"
+                  src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-53-07_Filling_cheese_momo.glb"
+                  ios-src="https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-53-07_Filling_cheese_momo.usdz"
+                  ar ar-modes="scene-viewer quick-look"
+                  camera-controls
+                  alt="3D model of Filling Cheese Momo">
+    </model-viewer>
   </div>
   <div class="button-group">
     <button class="button" onclick="loadAR(18)">View on Your Table</button>
@@ -600,36 +490,41 @@
   </div>
   <div class="dish-details">
     <div class="dish-name">Filling Cheese Momo</div>
-    <div class="dish-price">Rs. --</div>
+    <div class="dish-price">Rs. —</div>
     <div class="serving-info">Serves 1</div>
     <div class="dish-description">Description coming soon.</div>
     <div class="read-more">Read More</div>
   </div>
 </div>
 
- 
+<!-- ─────────────────────────  /MENU CARDS  ───────────────────────── -->
 
-    <script>
-        // Load the 3D model viewer
-        function load3D(itemIndex) {
-            const staticImage = document.getElementById(static-image${itemIndex});
-            const modelViewer = document.getElementById(model-viewer${itemIndex});
-            staticImage.style.display = 'none'; // Hide the static image
-            modelViewer.style.display = 'block'; // Show the model viewer
-        }
+<script>
+  /**
+   * Show a model-viewer and hide its thumbnail image.
+   * @param {number} itemIndex – 1-based index of the card to activate.
+   */
+  function load3D(itemIndex){
+    const staticImage = document.getElementById(`static-image${itemIndex}`);
+    const modelViewer = document.getElementById(`model-viewer${itemIndex}`);
+    if(!staticImage || !modelViewer) return;
+    staticImage.style.display = 'none';
+    modelViewer.style.display = 'block';
+  }
 
-        // Activate AR mode
-        function loadAR(itemIndex) {
-            load3D(itemIndex); // Load the 3D model first
-            const modelViewer = document.getElementById(model-viewer${itemIndex});
-            if (modelViewer.activateAR) {
-                modelViewer.activateAR(); // Trigger AR mode
-            } else {
-                alert('AR is not supported on this device.');
-            }
-        }
-    </script>
+  /**
+   * Launch WebXR / Quick Look on supported devices.
+   */
+  function loadAR(itemIndex){
+    load3D(itemIndex);
+    const modelViewer = document.getElementById(`model-viewer${itemIndex}`);
+    if(modelViewer && typeof modelViewer.activateAR === 'function'){
+      modelViewer.activateAR();
+    }else{
+      alert('AR is not supported on this device.');
+    }
+  }
+</script>
+
 </body>
 </html>
-
-
